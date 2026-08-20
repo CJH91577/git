@@ -1,10 +1,21 @@
 # 🎋 竹知了 · Bamboo Cicada
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f)](https://cjh91577.github.io/git/)
+
 一转就「哇鸣—哇鸣」的中国传统竹蝉玩具,3D 仿真网页游戏版。
 
 竹知了是一根竹签穿过竹筒手柄,顶端装着两片薄竹片;双手搓动竹签,
 竹片高速旋转切割空气,发出酷似夏日蝉鸣的「哇鸣」声——转得越快,
 声音越响、音调越高;转速慢下来,声音也跟着变闷变低,直到停下。
+
+![竹知了游戏画面](screenshots/gameplay.png)
+
+## 在线试玩
+
+无需安装任何东西,浏览器直接打开:
+
+👉 **https://cjh91577.github.io/git/**
 
 ## 快速开始
 
