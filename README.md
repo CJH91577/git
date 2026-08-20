@@ -110,3 +110,7 @@ zhuzhiliao/
 ├─ tests/core.test.mjs Node 测试
 └─ server.js           零依赖静态服务器
 ```
+
+## 许可证
+
+[MIT](./LICENSE)
