@@ -1,0 +1,10 @@
+{
+  "name": "zhuzhiliao",
+  "version": "1.0.0",
+  "description": "3D 竹知了(竹蝉)传统玩具仿真网页游戏",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/core.test.mjs"
+  }
+}

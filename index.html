@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#b7e0f2">
+<meta name="description" content="3D 竹知了(竹蝉)传统玩具仿真网页游戏:搓动竹签,听它哇鸣哇鸣地叫!">
+<title>竹知了 · Bamboo Cicada</title>
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header id="hud">
+  <section id="rpmWrap" class="hud-card rpmwrap cool">
+    <div class="label">转速</div>
+    <div class="rpmline"><span id="rpmVal">0</span><span class="unit">RPM</span></div>
+    <div class="bar"><div id="rpmBar"></div></div>
+    <div class="row2">
+      <div id="soundBars" class="soundbars" title="蝉鸣"><i></i><i></i><i></i></div>
+      <span class="rpmtag" id="rpmTag">静悄悄</span>
+    </div>
+  </section>
+
+  <section id="challengeCard" class="hud-card">
+    <div class="ctitle"><span id="challengeTitle">🪀 自由把玩</span></div>
+    <div class="chint" id="challengeHint">随心搓动,听听转速带来的蝉鸣变化</div>
+    <div class="bar"><div id="challengeBar"></div></div>
+    <div class="cprog" id="challengeProgress"></div>
+    <div class="csub">连续鸣叫 <b id="episodeVal">0.0</b>s · 最高转速 <b id="rpmRecord">0</b> RPM</div>
+  </section>
+
+  <section class="hud-card scorecard">
+    <div class="label">得分</div>
+    <div class="scoreval" id="scoreVal">0</div>
+    <div class="bestline">最佳 <span id="bestVal">0</span></div>
+  </section>
+</header>
+
+<nav id="modebar">
+  <button data-mode="free" class="modebtn">🪀 自由</button>
+  <button data-mode="sustain" class="modebtn">⏱️ 连续鸣叫</button>
+  <button data-mode="sprint" class="modebtn">💨 极速</button>
+</nav>
+
+<div id="hintBar">
+  <span class="hl">🖱️ 在竹知了上按住来回滑动 = 搓动</span>
+  <span class="hl">💨 快速一甩 = 冲量</span>
+  <span class="hl">🔄 在空白处拖动 = 旋转视角</span>
+  <span class="hl">✋ 手势 / 📳 摇一摇 也可加速</span>
+</div>
+
+<footer id="controls">
+  <button id="btnMute" class="ctlbtn" title="静音 / 恢复 (M)">🔊</button>
+  <button id="btnCam" class="ctlbtn" title="摄像头手势操控 (C)">📷</button>
+  <button id="btnShake" class="ctlbtn" title="开启摇一摇">📳</button>
+  <button id="btnHelp" class="ctlbtn" title="玩法说明">❓</button>
+</footer>
+
+<aside id="helpCard">
+  <div class="hcard">
+    <h2>🎋 竹知了怎么玩</h2>
+    <ul>
+      <li><b>搓动</b>:在竹知了上按住并来回滑动(鼠标/手指),相当于双手搓竹签;搓得越快,转速越高。</li>
+      <li><b>甩动</b>:快速划一下再松开,给竹片一个冲量。</li>
+      <li><b>手势</b>:点 📷 开启摄像头,把双手合掌放在镜头前,来回搓动掌心。</li>
+      <li><b>摇一摇</b>:手机点 📳 后晃动手机(需授权)。</li>
+      <li><b>视角</b>:在空白处拖动旋转观察;双指/滚轮缩放。</li>
+      <li><b>声音</b>:转速越快,蝉鸣音调越高、越响亮;停下来声音自然消失——这就是竹片切割空气的"哇鸣"声。</li>
+      <li><b>挑战</b>:「连续鸣叫」保持不停鸣叫达到目标秒数;「极速」突破转速大关;得分与纪录自动保存在本机。</li>
+    </ul>
+    <button id="btnHelpClose" class="bigbtn">知道啦</button>
+  </div>
+</aside>
+
+<div id="camPip">
+  <canvas id="camOverlay" width="176" height="132"></canvas>
+  <video id="camVideo" playsinline muted autoplay hidden></video>
+  <div id="camStatus">…</div>
+  <button id="btnCamClose" title="关闭摄像头">×</button>
+</div>
+
+<div id="toasts"></div>
+
+<div id="startOverlay">
+  <div class="scard">
+    <h1>竹知了<span class="en">Bamboo Cicada</span></h1>
+    <p class="sub">一转就「哇鸣—哇鸣」的传统竹蝉玩具 · 3D 仿真版</p>
+    <ul class="how">
+      <li>🖱️ / 👆 在竹知了上按住来回滑动 = 搓竹签</li>
+      <li>💨 快速一甩,给竹片一个冲量</li>
+      <li>✋ 摄像头手势:双手合掌来回搓动</li>
+      <li>📳 手机摇一摇</li>
+      <li>🔄 空白处拖动 = 旋转视角观察</li>
+    </ul>
+    <button id="btnStart" class="bigbtn">开始 · 听蝉鸣</button>
+    <p class="note">声音全部由 WebAudio 实时合成 · 转速越快,音调越高越响亮</p>
+  </div>
+</div>
+
+<pre id="selftest" hidden></pre>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
